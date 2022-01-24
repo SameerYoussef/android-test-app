@@ -2,6 +2,7 @@ package com.example.testapp.unittests
 
 import com.example.testapp.Car
 import com.example.testapp.Engine
+import com.example.testapp.utils.BaseUnitTest
 import com.example.testapp.utils.MainCoroutineScopeRule
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.delay
@@ -14,13 +15,10 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-class CarShould {
+class CarShould : BaseUnitTest() {
 
     private val engine: Engine = mock()
     private val car: Car
-
-    @get:Rule
-    val blockingRule = MainCoroutineScopeRule()
 
     init {
         runTest {
@@ -50,6 +48,5 @@ class CarShould {
 
         verify(car.engine, times(1)).turnOn()
         verify(engine, times(1)).turnOn()
-
     }
 }

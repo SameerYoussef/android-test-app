@@ -11,9 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val engine = Engine(120, 200)
+        val car = Car(100.0, engine)
 
         CoroutineScope(Dispatchers.Main).launch {
-            engine.turnOn()
+            car.turnOn()
         }
         setContentView(R.layout.activity_main)
     }

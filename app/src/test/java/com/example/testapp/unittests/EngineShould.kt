@@ -1,6 +1,9 @@
 package com.example.testapp.unittests
 
 import com.example.testapp.Engine
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -14,13 +17,13 @@ class EngineShould {
     fun turnOn() = runTest {
         engine.turnOn()
         assertTrue(engine.isTurnedOn)
-        assertEquals(95, engine.temp)
     }
 
     @Test
-    fun tempRaisesUponIgnition() = runTest {
-        engine.turnOn()
-        assertEquals(95, engine.temp)
+    fun tempRaisesGraduallyUponIgnition() = runTest {
+        val flow = engine.turnOn()
+        val actual = flow.toList()
+        assertEquals(listOf(45, 70, 95), actual)
     }
 
     @Test

@@ -25,12 +25,18 @@ class CarFeatureTests {
     }
 
     @Test
-    fun carEngineWarmsUpUponIgnition() = runTest {
+    fun carEngineGraduallyWarmsUpUponIgnition() = runTest {
         car.turnOn()
 
-        advanceTimeBy(6001)
+        advanceTimeBy(2001)
+        assertEquals(45, car.engine.temp)
 
+        advanceTimeBy(2000)
+        assertEquals(70, car.engine.temp)
+
+        advanceTimeBy(2000)
         assertEquals(95, car.engine.temp)
+
         assertTrue(car.engine.isTurnedOn)
     }
 }

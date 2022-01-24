@@ -2,6 +2,8 @@ package com.example.testapp
 
 import android.util.Log
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class Engine(
     val cc: Int,
@@ -9,11 +11,19 @@ class Engine(
     var temp: Int = 15,
     var isTurnedOn: Boolean = false
 ) {
-    suspend fun turnOn() {
+    suspend fun turnOn() : Flow<Int> {
         isTurnedOn = true
-        delay(6000)
-        Log.d("❌", "Finally 6s passed")
-        temp = 95
+        return flow {
+            temp = 20
+            (1..3).forEach { _ ->
+                delay(2000)
+                temp += 25
+                emit(temp)
+            }
+
+            Log.d("❌", "Finally 6s passed")
+        }
+
     }
 
     fun turnOff() {

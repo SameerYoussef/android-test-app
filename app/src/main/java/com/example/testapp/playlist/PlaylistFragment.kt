@@ -40,7 +40,6 @@ class PlaylistFragment : Fragment() {
     ) {
         with(view as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
-
             adapter = MyPlaylistRecyclerViewAdapter(playlists)
         }
     }

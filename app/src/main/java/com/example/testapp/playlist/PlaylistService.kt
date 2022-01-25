@@ -14,5 +14,4 @@ class PlaylistService(
             emit(Result.failure(RuntimeException("something went wrong")))
         }
     }
-
 }

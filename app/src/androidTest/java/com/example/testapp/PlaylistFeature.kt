@@ -7,6 +7,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.example.testapp.utils.OkHttpIdlingResourceRule
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.internal.matcher.DrawableMatcher.Companion.withDrawable
@@ -21,6 +22,9 @@ class PlaylistFeature {
     @get:Rule
     val mActivityRule = ActivityTestRule(MainActivity::class.java)
 
+    @get:Rule
+    val okHttpIdlingResourceRule = OkHttpIdlingResourceRule()
+
     @Test
     fun displayScreenTitle() {
         assertDisplayed("Playlists")
@@ -28,6 +32,7 @@ class PlaylistFeature {
 
     @Test
     fun displayListOfPlaylists() {
+
         assertRecyclerViewItemCount(R.id.playlists_list, 10)
 
         onView(withId(R.id.playlists_list))

@@ -1,8 +1,9 @@
 package com.example.testapp.playlist
 
-interface PlaylistApi {
-    suspend fun fetchAllPlaylists(): List<Playlist> {
-        TODO("blah")
-    }
+import retrofit2.http.GET
 
+interface PlaylistApi {
+
+    @GET("playlists")
+    suspend fun fetchAllPlaylists(): List<Playlist>
 }

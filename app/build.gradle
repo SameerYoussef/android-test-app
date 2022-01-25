@@ -61,7 +61,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation('com.schibsted.spain:barista:3.9.0') {
         exclude group: 'org.jetbrains.kotlin'
     }

@@ -1,13 +1,12 @@
 package com.example.testapp
 
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.example.testapp.utils.OkHttpIdlingResourceRule
+import com.example.testapp.utils.ViewMatchersExtensions
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.internal.matcher.DrawableMatcher.Companion.withDrawable
@@ -35,16 +34,18 @@ class PlaylistFeature {
 
         assertRecyclerViewItemCount(R.id.playlists_list, 10)
 
-        onView(withId(R.id.playlists_list))
-            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
-            .check(matches(hasDescendant(allOf(withId(R.id.playlist_name), withText("Hard Rock Cafe")))))
+        val positionZero = isDescendantOfA(ViewMatchersExtensions.nthChildOf(withId(R.id.playlists_list), 0))
 
-        onView(withId(R.id.playlists_list))
-            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
-            .check(matches(hasDescendant(allOf(withId(R.id.playlist_category), withText("rock")))))
+        onView(allOf(withId(R.id.playlist_name), positionZero))
+            .check(matches(withText("Hard Rock Cafe")))
+            .check(matches(isDisplayed()))
 
-        onView(withId(R.id.playlists_list))
-            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
-            .check(matches(hasDescendant(allOf(withId(R.id.playlist_image), withDrawable(R.mipmap.playlist)))))
+        onView(allOf(withId(R.id.playlist_category), positionZero))
+            .check(matches(withText("rock")))
+            .check(matches(isDisplayed()))
+
+        onView(allOf(withId(R.id.playlist_image), positionZero))
+            .check(matches(allOf(withContentDescription("playlist_image"), withDrawable(R.mipmap.playlist))))
+            .check(matches(isDisplayed()))
     }
 }

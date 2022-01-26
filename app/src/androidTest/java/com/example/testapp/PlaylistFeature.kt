@@ -48,4 +48,9 @@ class PlaylistFeature {
             .check(matches(allOf(withContentDescription("playlist_image"), withDrawable(R.mipmap.playlist))))
             .check(matches(isDisplayed()))
     }
+
+    @Test
+    fun displaysLoaderWhileFetchingPlaylists() {
+        assertDisplayed(R.id.loader)
+    }
 }

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp.R
 import com.example.testapp.databinding.PlaylistItemBinding
 
-class MyPlaylistRecyclerViewAdapter(
+class PlaylistRecyclerViewAdapter(
     private val values: List<Playlist>
-) : RecyclerView.Adapter<MyPlaylistRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PlaylistRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -28,7 +28,7 @@ class MyPlaylistRecyclerViewAdapter(
 
         holder.playlistName.text = item.name
         holder.playlistCategory.text = item.category
-        holder.playlistImage.setImageResource(R.mipmap.playlist)
+        holder.playlistImage.setImageResource(item.image)
     }
 
     override fun getItemCount(): Int = values.size

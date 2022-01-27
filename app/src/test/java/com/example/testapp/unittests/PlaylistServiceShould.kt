@@ -2,6 +2,7 @@ package com.example.testapp.unittests
 
 import com.example.testapp.playlist.Playlist
 import com.example.testapp.playlist.PlaylistApi
+import com.example.testapp.playlist.PlaylistRaw
 import com.example.testapp.playlist.PlaylistService
 import com.example.testapp.utils.BaseUnitTest
 import kotlinx.coroutines.flow.first
@@ -17,7 +18,7 @@ class PlaylistServiceShould : BaseUnitTest() {
 
     private lateinit var service: PlaylistService
     private val playlistApi: PlaylistApi = mock()
-    private val playlistValues: List<Playlist> = mock()
+    private val playlistValues: List<PlaylistRaw> = mock()
     private val exception = RuntimeException("something went wrong")
 
     @Test

@@ -4,6 +4,7 @@ import com.example.testapp.playlist.Playlist
 import com.example.testapp.playlist.PlaylistRepository
 import com.example.testapp.playlist.PlaylistViewModel
 import com.example.testapp.utils.BaseUnitTest
+import com.example.testapp.utils.captureValues
 import com.example.testapp.utils.getValueForTest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -24,7 +25,7 @@ class PlaylistViewModelShould : BaseUnitTest() {
     @Test
     fun getPlaylistsFromRepository() = runTest {
 
-        val viewModel = mockRepository()
+        val viewModel = mockRepositorySuccess()
         viewModel.playlists.getValueForTest()
 
         verify(repository, times(1)).getPlaylists()
@@ -32,23 +33,47 @@ class PlaylistViewModelShould : BaseUnitTest() {
 
     @Test
     fun emitsPlaylistsFromRepository() = runTest {
-        val viewModel = mockRepository()
+        val viewModel = mockRepositorySuccess()
         assertEquals(expected, viewModel.playlists.getValueForTest())
     }
 
     @Test
     fun emitErrorWhenReceiveError()  = runTest {
-        whenever(repository.getPlaylists()).thenReturn(
-            flow {
-                emit(Result.failure<List<Playlist>>(exception))
-            }
-        )
-        val viewModel = PlaylistViewModel(repository)
-
+        val viewModel = mockRepositoryFailure()
         assertEquals(exception, viewModel.playlists.getValueForTest()!!.exceptionOrNull())
     }
 
-    private fun mockRepository() : PlaylistViewModel {
+    @Test
+    fun showSpinnerWhileLoading() = runTest {
+        val viewModel = mockRepositorySuccess()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+            assertEquals(true, values[0])
+        }
+    }
+
+    @Test
+    fun closeLoaderOncePlaylistLoads() = runTest {
+        val viewModel = mockRepositorySuccess()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+            assertEquals(false, values.last())
+        }
+    }
+
+    @Test
+    fun closeLoaderOncePlaylistOnError() = runTest {
+        val viewModel = mockRepositoryFailure()
+
+        viewModel.loader.captureValues {
+            viewModel.playlists.getValueForTest()
+            assertEquals(false, values.last())
+        }
+    }
+
+    private fun mockRepositorySuccess() : PlaylistViewModel {
         runTest {
             whenever(repository.getPlaylists()).thenReturn(
                 flow {
@@ -56,6 +81,15 @@ class PlaylistViewModelShould : BaseUnitTest() {
                 }
             )
         }
+        return PlaylistViewModel(repository)
+    }
+
+    private suspend fun mockRepositoryFailure(): PlaylistViewModel {
+        whenever(repository.getPlaylists()).thenReturn(
+            flow {
+                emit(Result.failure<List<Playlist>>(exception))
+            }
+        )
         return PlaylistViewModel(repository)
     }
 }

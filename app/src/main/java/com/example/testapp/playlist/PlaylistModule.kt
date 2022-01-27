@@ -16,7 +16,7 @@ class PlaylistModule {
 
     @Provides
     fun retrofit() : Retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.1.103:3000/")
+        .baseUrl("http://192.168.60.112:3000/")
         .client(PlaylistFragment.okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

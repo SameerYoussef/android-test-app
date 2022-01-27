@@ -9,17 +9,18 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testapp.R
+import com.example.testapp.databinding.FragmentPlaylistBinding
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class PlaylistFragment : Fragment() {
 
     private lateinit var viewModel: PlaylistViewModel
+    private var _binding: FragmentPlaylistBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: PlaylistViewModelFactory
@@ -28,17 +29,29 @@ class PlaylistFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_playlist, container, false)
+        _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
 
         setUpViewModel()
 
-        viewModel.playlists.observe(this as LifecycleOwner, { playlists ->
-            if (playlists.getOrNull() != null ) {
-                setUpList(view, playlists.getOrNull()!!)
+        viewModel.loader.observe(this as LifecycleOwner) { loading ->
+            binding.loader.visibility = when (loading) {
+                true -> View.VISIBLE
+                else -> View.GONE
             }
-        })
+        }
 
-        return view
+        viewModel.playlists.observe(this as LifecycleOwner) { playlists ->
+            if (playlists.getOrNull() != null) {
+                setUpList(binding.playlistsList, playlists.getOrNull()!!)
+            }
+        }
+
+        return binding.root // i.e. "view"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setUpList(
@@ -47,7 +60,7 @@ class PlaylistFragment : Fragment() {
     ) {
         with(view as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
-            adapter = MyPlaylistRecyclerViewAdapter(playlists)
+            adapter = PlaylistRecyclerViewAdapter(playlists)
         }
     }
 

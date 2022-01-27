@@ -17,6 +17,10 @@ class OkHttpIdlingResourceRule : ExternalResource() {
     }
 
     override fun after() {
+        unregisterIdlingResource()
+    }
+
+    fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(okHttpClientIdlingResource)
     }
 }

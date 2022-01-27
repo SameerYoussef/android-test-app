@@ -9,6 +9,7 @@ import com.example.testapp.utils.OkHttpIdlingResourceRule
 import com.example.testapp.utils.ViewMatchersExtensions
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.schibsted.spain.barista.internal.matcher.DrawableMatcher.Companion.withDrawable
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Rule
@@ -34,14 +35,14 @@ class PlaylistFeature {
 
         assertRecyclerViewItemCount(R.id.playlists_list, 10)
 
-        val positionZero = isDescendantOfA(ViewMatchersExtensions.nthChildOf(withId(R.id.playlists_list), 0))
+        val positionZero = isDescendantOfA(ViewMatchersExtensions.nthChildOf(withId(R.id.playlists_list), 1))
 
         onView(allOf(withId(R.id.playlist_name), positionZero))
-            .check(matches(withText("Hard Rock Cafe")))
+            .check(matches(withText("Chilled House")))
             .check(matches(isDisplayed()))
 
         onView(allOf(withId(R.id.playlist_category), positionZero))
-            .check(matches(withText("rock")))
+            .check(matches(withText("house")))
             .check(matches(isDisplayed()))
 
         onView(allOf(withId(R.id.playlist_image), positionZero))
@@ -51,6 +52,29 @@ class PlaylistFeature {
 
     @Test
     fun displaysLoaderWhileFetchingPlaylists() {
+        okHttpIdlingResourceRule.unregisterIdlingResource()
         assertDisplayed(R.id.loader)
+    }
+
+    @Test
+    fun hidesLoader() {
+        assertNotDisplayed(R.id.loader)
+    }
+
+    @Test
+    fun displaysRockImageForRockItems() {
+        onView(allOf(
+            withId(R.id.playlist_image),
+            isDescendantOfA(ViewMatchersExtensions.nthChildOf(withId(R.id.playlists_list), 0))
+        ))
+            .check(matches(allOf(withContentDescription("playlist_image"), withDrawable(R.mipmap.rock))))
+            .check(matches(isDisplayed()))
+
+        onView(allOf(
+            withId(R.id.playlist_image),
+            isDescendantOfA(ViewMatchersExtensions.nthChildOf(withId(R.id.playlists_list), 3))
+        ))
+            .check(matches(allOf(withContentDescription("playlist_image"), withDrawable(R.mipmap.rock))))
+            .check(matches(isDisplayed()))
     }
 }

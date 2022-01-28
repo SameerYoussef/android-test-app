@@ -1,10 +1,12 @@
 package com.example.testapp
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.example.testapp.utils.BaseUITest
 import com.example.testapp.utils.OkHttpIdlingResourceRule
 import com.example.testapp.utils.ViewMatchersExtensions
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
@@ -17,13 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PlaylistFeature {
-
-    @get:Rule
-    val mActivityRule = ActivityTestRule(MainActivity::class.java)
-
-    @get:Rule
-    val okHttpIdlingResourceRule = OkHttpIdlingResourceRule()
+class PlaylistFeature : BaseUITest() {
 
     @Test
     fun displayScreenTitle() {
@@ -76,5 +72,15 @@ class PlaylistFeature {
         ))
             .check(matches(allOf(withContentDescription("playlist_image"), withDrawable(R.mipmap.rock))))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun navigateToDetailsScreen() {
+        val positionZero = isDescendantOfA(ViewMatchersExtensions.nthChildOf(withId(R.id.playlists_list), 0))
+
+        onView(allOf(withId(R.id.playlist_name), positionZero))
+            .perform(click())
+
+        assertDisplayed(R.id.playlists_details_root)
     }
 }

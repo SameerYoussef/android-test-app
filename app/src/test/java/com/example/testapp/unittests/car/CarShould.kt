@@ -1,14 +1,12 @@
-package com.example.testapp.unittests
+package com.example.testapp.unittests.car
 
 import com.example.testapp.Car
 import com.example.testapp.Engine
 import com.example.testapp.utils.BaseUnitTest
-import com.example.testapp.utils.MainCoroutineScopeRule
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times

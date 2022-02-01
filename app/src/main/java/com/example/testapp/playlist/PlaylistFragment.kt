@@ -63,7 +63,7 @@ class PlaylistFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = PlaylistRecyclerViewAdapter(playlists) { id ->
                 val action =
-                    PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistDetailFragment(id)
+                    PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistDetailsFragment(id)
                 findNavController().navigate(action)
             }
         }
@@ -74,11 +74,6 @@ class PlaylistFragment : Fragment() {
     }
 
     companion object {
-
-        @JvmStatic
-        fun newInstance() = PlaylistFragment().apply {}
-
         val okHttpClient = OkHttpClient()
-
     }
 }

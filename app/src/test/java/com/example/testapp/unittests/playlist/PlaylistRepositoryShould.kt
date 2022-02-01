@@ -1,4 +1,4 @@
-package com.example.testapp.unittests
+package com.example.testapp.unittests.playlist
 
 import com.example.testapp.playlist.*
 import com.example.testapp.utils.BaseUnitTest
@@ -11,7 +11,6 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import java.lang.RuntimeException
 
 class PlaylistRepositoryShould: BaseUnitTest() {
 

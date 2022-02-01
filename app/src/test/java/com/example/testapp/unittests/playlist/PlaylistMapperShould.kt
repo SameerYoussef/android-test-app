@@ -1,4 +1,4 @@
-package com.example.testapp.unittests
+package com.example.testapp.unittests.playlist
 
 import com.example.testapp.R
 import com.example.testapp.playlist.PlaylistMapper

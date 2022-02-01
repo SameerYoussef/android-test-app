@@ -10,15 +10,15 @@
         android:name="com.example.testapp.playlist.PlaylistFragment"
         android:label="PlaylistFragment" >
         <action
-            android:id="@+id/action_playlistFragment_to_playlistDetailFragment"
-            app:destination="@id/playlistDetailFragment" />
+            android:id="@+id/action_playlistFragment_to_playlistDetailsFragment"
+            app:destination="@id/playlistDetailsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/playlistDetailFragment"
-        android:name="com.example.testapp.PlaylistDetailFragment"
-        android:label="fragment_playlist_detail"
-        tools:layout="@layout/fragment_playlist_detail" >
+        android:id="@+id/playlistDetailsFragment"
+        android:name="com.example.testapp.playlist.details.PlaylistDetailsFragment"
+        android:label="fragment_playlist_details"
+        tools:layout="@layout/fragment_playlist_details" >
         <argument
             android:name="playlistId"
             app:argType="string"

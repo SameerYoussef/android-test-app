@@ -1,6 +1,5 @@
-package com.example.testapp.unittests
+package com.example.testapp.unittests.playlist
 
-import com.example.testapp.playlist.Playlist
 import com.example.testapp.playlist.PlaylistApi
 import com.example.testapp.playlist.PlaylistRaw
 import com.example.testapp.playlist.PlaylistService

@@ -1,13 +1,11 @@
-package com.example.testapp.unittests
+package com.example.testapp.unittests.car
 
 import com.example.testapp.Engine
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class EngineShould {
 

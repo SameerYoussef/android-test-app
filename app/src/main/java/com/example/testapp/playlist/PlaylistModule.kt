@@ -1,5 +1,6 @@
 package com.example.testapp.playlist
 
+import com.example.testapp.playlist.details.PlaylistDetailsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +14,6 @@ class PlaylistModule {
 
     @Provides
     fun playlistApi(retrofit: Retrofit) : PlaylistApi = retrofit.create(PlaylistApi::class.java)
-
     @Provides
     fun retrofit() : Retrofit = Retrofit.Builder()
         .baseUrl("http://192.168.1.103:3000/")

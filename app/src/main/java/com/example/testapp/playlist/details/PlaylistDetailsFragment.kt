@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.example.testapp.R
 import com.example.testapp.databinding.FragmentPlaylistDetailsBinding
 import com.example.testapp.playlist.PlaylistApi
+import com.google.android.material.snackbar.Snackbar
 import dagger.Provides
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Retrofit
@@ -39,7 +41,17 @@ class PlaylistDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[PlaylistDetailsViewModel::class.java]
         viewModel.getPlaylistDetails(id)
 
+        viewModel.loader.observe(this as LifecycleOwner) {
+            binding.detailsLoader.visibility = when (it) {
+                true -> View.VISIBLE
+                false -> View.GONE
+            }
+        }
+
         viewModel.playlistDetails.observe(this as LifecycleOwner) {
+            if (it.getOrNull() == null) {
+                Snackbar.make(binding.root, R.string.generic_error, Snackbar.LENGTH_LONG).show()
+            }
             val playlist = it.getOrDefault(PlaylistDetails("","Sorry!","Playlist not found"))
             binding.playlistName.text = playlist.name
             binding.playlistDetails.text = playlist.details

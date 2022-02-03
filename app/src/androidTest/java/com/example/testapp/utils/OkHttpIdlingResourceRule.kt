@@ -1,17 +1,19 @@
 package com.example.testapp.utils
 
 import androidx.test.espresso.IdlingRegistry
-import com.example.testapp.playlist.PlaylistFragment
+import com.example.testapp.playlist.okHttpClient
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import org.junit.rules.ExternalResource
 
 class OkHttpIdlingResourceRule : ExternalResource() {
 
-    private lateinit var okHttpClientIdlingResource: OkHttp3IdlingResource
-
     override fun before() {
+        registerIdlingResource()
+    }
+
+    private fun registerIdlingResource() {
         okHttpClientIdlingResource =
-            OkHttp3IdlingResource.create("OkHttp", PlaylistFragment.okHttpClient).also {
+            OkHttp3IdlingResource.create("OkHttp", okHttpClient).also {
                 IdlingRegistry.getInstance().register(it)
             }
     }
@@ -20,7 +22,12 @@ class OkHttpIdlingResourceRule : ExternalResource() {
         unregisterIdlingResource()
     }
 
-    fun unregisterIdlingResource() {
-        IdlingRegistry.getInstance().unregister(okHttpClientIdlingResource)
+    companion object {
+
+        private lateinit var okHttpClientIdlingResource: OkHttp3IdlingResource
+
+        fun unregisterIdlingResource() {
+            IdlingRegistry.getInstance().unregister(okHttpClientIdlingResource)
+        }
     }
 }

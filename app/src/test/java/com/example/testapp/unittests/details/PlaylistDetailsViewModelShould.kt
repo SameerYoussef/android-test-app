@@ -4,10 +4,11 @@ import com.example.testapp.playlist.details.PlaylistDetails
 import com.example.testapp.playlist.details.PlaylistDetailsService
 import com.example.testapp.playlist.details.PlaylistDetailsViewModel
 import com.example.testapp.utils.BaseUnitTest
+import com.example.testapp.utils.captureValues
 import com.example.testapp.utils.getValueForTest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito.times
 import org.mockito.kotlin.mock
@@ -17,7 +18,7 @@ import org.mockito.kotlin.whenever
 class PlaylistDetailsViewModelShould : BaseUnitTest() {
 
     private val service: PlaylistDetailsService = mock()
-    private val playlistDetails = mock<PlaylistDetails>()
+    private val playlistDetails: PlaylistDetails = mock()
     private val serviceSuccess = Result.success(playlistDetails)
     private val id = "1"
 
@@ -34,7 +35,7 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
         val viewModel = mockServiceSuccess()
         viewModel.getPlaylistDetails("1")
 
-        Assert.assertEquals(serviceSuccess, viewModel.playlistDetails.getValueForTest())
+        assertEquals(serviceSuccess, viewModel.playlistDetails.getValueForTest())
     }
 
     @Test
@@ -48,7 +49,28 @@ class PlaylistDetailsViewModelShould : BaseUnitTest() {
         val viewModel = PlaylistDetailsViewModel(service)
         viewModel.getPlaylistDetails("1")
 
-        Assert.assertEquals(exception, viewModel.playlistDetails.getValueForTest()!!.exceptionOrNull())
+        assertEquals(exception, viewModel.playlistDetails.getValueForTest()!!.exceptionOrNull())
+    }
+
+    @Test
+    fun displayLoaderWhileFetching() = runTest {
+        val viewModel = mockServiceSuccess()
+
+        viewModel.loader.captureValues {
+            viewModel.getPlaylistDetails(id)
+            viewModel.playlistDetails.getValueForTest()
+            assertEquals(true, values[0])
+        }
+    }
+
+    @Test
+    fun hideLoaderUponFetchComplete() = runTest {
+        val viewModel = mockServiceSuccess()
+        viewModel.getPlaylistDetails(id)
+        viewModel.loader.captureValues {
+            viewModel.playlistDetails.getValueForTest()
+            assertEquals(false, values.last())
+        }
     }
 
     private fun mockServiceSuccess() : PlaylistDetailsViewModel {

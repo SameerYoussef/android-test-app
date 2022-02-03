@@ -72,8 +72,4 @@ class PlaylistFragment : Fragment() {
     private fun setUpViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory)[PlaylistViewModel::class.java]
     }
-
-    companion object {
-        val okHttpClient = OkHttpClient()
-    }
 }

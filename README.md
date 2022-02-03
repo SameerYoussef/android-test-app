@@ -2,6 +2,9 @@
 
 Based on Udemy tutorial https://wooliesx.udemy.com/course/android-11-tdd-masterclass/
 
+![image](https://user-images.githubusercontent.com/18099038/152274765-5c5fabb1-7df5-4965-a193-310e6ff984e7.png)
+
+
 ## Demo showing tests passing and app running
 https://user-images.githubusercontent.com/18099038/152274387-12488e30-29e9-4e92-bd62-89e0f33e980b.mov
 
